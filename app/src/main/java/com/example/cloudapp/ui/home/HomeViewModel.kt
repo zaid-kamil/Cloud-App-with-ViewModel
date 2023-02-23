@@ -1,0 +1,39 @@
+package com.example.cloudapp.ui.home
+
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.example.cloudapp.models.Product
+import com.example.cloudapp.ui.home.HomeFragment.Companion.COLL_PRODUCTS
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+
+class HomeViewModel : ViewModel() {
+
+    private val _products = MutableLiveData<List<Product>>()
+    val products: LiveData<List<Product>> = _products
+//    private var db: FirebaseFirestore = Firebase.firestore
+//    init {
+//        loadProducts(db)
+//    }
+
+    fun getProducts(db: FirebaseFirestore) {
+        loadProducts(db)
+    }
+
+    private fun loadProducts(db: FirebaseFirestore) {
+        // fetch data from firebase firestore
+        db.collection(COLL_PRODUCTS).get().addOnFailureListener {
+            Log.e("HomeViewModel", "Error fetching products ${it.message}")
+        }.addOnCanceledListener {
+            Log.e("HomeViewModel", "Cancelled fetching products")
+        }.addOnSuccessListener {
+            val prds = it.toObjects(Product::class.java)
+            _products.value = prds
+            Log.d("HomeViewModel", "Products loaded ${prds.size}")
+        }
+    }
+
+}
