@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.cloudapp.R
 import com.example.cloudapp.adapters.ProductAdapter
 import com.example.cloudapp.databinding.FragmentHomeBinding
@@ -56,6 +57,8 @@ class HomeFragment : Fragment() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             homeViewModel.getProducts(db)
         }
+
+        binding.fabAdd.setOnClickListener { findNavController().navigate(R.id.action_navigation_home_to_addProductFragment) }
     }
 
     override fun onDestroyView() {

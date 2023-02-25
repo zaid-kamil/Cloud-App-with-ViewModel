@@ -14,11 +14,6 @@ class HomeViewModel : ViewModel() {
 
     private val _products = MutableLiveData<List<Product>>()
     val products: LiveData<List<Product>> = _products
-//    private var db: FirebaseFirestore = Firebase.firestore
-//    init {
-//        loadProducts(db)
-//    }
-
     fun getProducts(db: FirebaseFirestore) {
         loadProducts(db)
     }
