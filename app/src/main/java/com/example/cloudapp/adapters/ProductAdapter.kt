@@ -10,7 +10,8 @@ import coil.load
 import com.example.cloudapp.databinding.ProductCard1Binding
 import com.example.cloudapp.models.Product
 class ProductAdapter(
-    private val context: Context
+    private val context: Context,
+    private val listener: (Product) -> Unit
 ) : ListAdapter<Product, ProductAdapter.ViewHolder>(ProductDiffUtil()) {
     class ViewHolder(
         private val binding: ProductCard1Binding
@@ -32,6 +33,7 @@ class ProductAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener { listener(getItem(position)) }
     }
 
 }

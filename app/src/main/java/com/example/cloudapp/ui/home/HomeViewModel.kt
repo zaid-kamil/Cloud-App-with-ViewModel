@@ -14,6 +14,10 @@ class HomeViewModel : ViewModel() {
 
     private val _products = MutableLiveData<List<Product>>()
     val products: LiveData<List<Product>> = _products
+
+    private val _selectedProduct = MutableLiveData<Product>()
+    val selectedProduct: LiveData<Product> = _selectedProduct
+
     fun getProducts(db: FirebaseFirestore) {
         loadProducts(db)
     }
@@ -29,6 +33,10 @@ class HomeViewModel : ViewModel() {
             _products.value = prds
             Log.d("HomeViewModel", "Products loaded ${prds.size}")
         }
+    }
+
+    fun setProduct(product: Product) {
+        _selectedProduct.value = product
     }
 
 }

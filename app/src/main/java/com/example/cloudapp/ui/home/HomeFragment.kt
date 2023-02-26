@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.cloudapp.R
@@ -20,7 +22,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var db: FirebaseFirestore
-    private lateinit var homeViewModel: HomeViewModel
+    private val viewModel: HomeViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +35,6 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         val root: View = binding.root
         return root
@@ -41,12 +42,15 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        homeViewModel.getProducts(db) // fetch data only
-        homeViewModel.products.observe(viewLifecycleOwner) { products ->
+        viewModel.getProducts(db) // fetch data only
+        viewModel.products.observe(viewLifecycleOwner) { products ->
             if (products.isNotEmpty()) {
-                binding.productRecyclerView.adapter = ProductAdapter(requireActivity())
+                binding.productRecyclerView.adapter = ProductAdapter(requireActivity()) {
+                    viewModel.setProduct(it)
+                    findNavController().navigate(R.id.action_navigation_home_to_viewProductFragment)
+                }
                 (binding.productRecyclerView.adapter as ProductAdapter).submitList(products)
-            }else{
+            } else {
                 binding.productRecyclerView.visibility = View.GONE
             }
             if (binding.swipeRefreshLayout.isRefreshing) {
@@ -55,7 +59,7 @@ class HomeFragment : Fragment() {
         }
         // swipe to refresh
         binding.swipeRefreshLayout.setOnRefreshListener {
-            homeViewModel.getProducts(db)
+            viewModel.getProducts(db)
         }
 
         binding.fabAdd.setOnClickListener { findNavController().navigate(R.id.action_navigation_home_to_addProductFragment) }

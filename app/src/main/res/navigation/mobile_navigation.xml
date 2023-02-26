@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_addProductFragment"
             app:destination="@id/addProductFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_viewProductFragment"
+            app:destination="@id/viewProductFragment" />
     </fragment>
 
     <fragment
@@ -29,9 +32,13 @@
     <dialog
         android:id="@+id/addProductFragment"
         android:name="com.example.cloudapp.ui.home.AddProductFragment"
-        android:label="AddProductFragment" >
+        android:label="AddProductFragment" />
+    <fragment
+        android:id="@+id/viewProductFragment"
+        android:name="com.example.cloudapp.ui.home.ViewProductFragment"
+        android:label="ViewProductFragment" >
         <action
-            android:id="@+id/action_addProductFragment_to_navigation_home"
+            android:id="@+id/action_viewProductFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
-    </dialog>
+    </fragment>
 </navigation>

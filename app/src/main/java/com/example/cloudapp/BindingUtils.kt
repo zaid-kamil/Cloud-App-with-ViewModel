@@ -8,8 +8,10 @@ import com.example.cloudapp.models.Product
 
 
 @BindingAdapter("load_image")
-fun ImageView.loadImage(url: String) {
-    load(url)
+fun ImageView.loadImage(url: String?) {
+    url.let {
+        load(it)
+    }
 }
 
 @BindingAdapter("set_visibility")
