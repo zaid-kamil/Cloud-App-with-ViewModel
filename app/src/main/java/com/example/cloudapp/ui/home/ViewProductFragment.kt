@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.cloudapp.R
 import com.example.cloudapp.databinding.FragmentViewProductBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -35,8 +37,31 @@ class ViewProductFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.resetProductState()
+        binding.fabEdit.setOnClickListener {
+            findNavController().navigate(R.id.action_viewProductFragment_to_editProductFragment)
+        }
+        binding.ivMore.setOnClickListener {
+            val menu = PopupMenu(requireContext(), it)
+            menu.inflate(R.menu.product_popup_menu)
+            menu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.action_delete -> {
+                        viewModel.deleteProduct(db)
+                        findNavController().navigateUp()
+                        true
+                    }
+                    R.id.action_report -> {
+                        true
+                    }
+                    else -> false
+                }
+            }
+            menu.show()
+        }
     }
 
 

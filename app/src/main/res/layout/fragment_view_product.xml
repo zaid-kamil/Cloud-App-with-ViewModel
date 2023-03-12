@@ -38,6 +38,14 @@
                     app:layout_collapseMode="parallax"
                     app:load_image="@{viewModel.selectedProduct.imgsrc}" />
 
+                <ImageView
+                    android:id="@+id/ivMore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|top"
+                    android:padding="16dp"
+                    app:srcCompat="@drawable/baseline_more_vert_24" />
+
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -114,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:src="@android:drawable/ic_input_add" />
+            android:src="@drawable/baseline_edit_24" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

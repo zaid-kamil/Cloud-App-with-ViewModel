@@ -2,9 +2,9 @@ package com.example.cloudapp.models
 
 
 data class Product(
-    val name:String = "",
-    val brand:String = "",
-    val category:String = "",
+    var name:String = "",
+    var brand:String = "",
+    var category:String = "",
     val imgsrc:String = "https://wabisabiproject.com/wp-content/uploads/woocommerce-placeholder.png",
-    val price:Double = 0.0,
+    var price:Double = 0.0,
 )
